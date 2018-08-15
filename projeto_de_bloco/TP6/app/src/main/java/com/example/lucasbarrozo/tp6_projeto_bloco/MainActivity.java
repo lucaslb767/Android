@@ -53,8 +53,58 @@ public class MainActivity extends AppCompatActivity {
                 testDependente="0";
             }
 
+
+            double salBruto = Double.parseDouble(testSalario);
+            double pensao = Double.parseDouble(testPensao);
+            double dependente = Double.parseDouble(testDependente) * 189.59;
+            double inss = 0;
+            double irpf=0;
+
+            if (salBruto <= 1659.38) {
+                inss = .08 *salBruto;
+            } else if(salBruto <=2765.66 ){
+                inss = .09 * salBruto;
+            } else if ( salBruto <= 5531.31) {
+                inss = .11 * salBruto;
+            } else {
+                inss = 608.44;
+            }
+
+
+             if(salBruto <=1903.98 ){
+                irpf = 0 * salBruto;
+            } else if(salBruto <=2826.65 ){
+                 irpf = .075 * salBruto;
+             } else if(salBruto <=3751.05 ){
+                 irpf = .15 * salBruto;
+             } else if(salBruto <=4664.68 ){
+                 irpf = .225 * salBruto;
+             } else {
+                irpf = .275 * salBruto;
+             }
+
+
+
+
+            double salLiquido = salBruto - pensao - dependente - inss - irpf;
+
+            double totalDespesa = pensao + dependente + inss + irpf;
+
+            double porcentagemDespesa = totalDespesa/salBruto*100;
+
+            String sal2Decimals = String.format("%.2f",salLiquido);
+            String salFinal = "R$" + sal2Decimals;
+
+            String despesa2decimals = String.format("%.2f",totalDespesa);
+            String despesaFinal = "R$" + despesa2decimals;
+
+            String porcentagem = String.format("%.2f",porcentagemDespesa);
+            String porcentagemFinal = porcentagem + "%";
+
             Intent resultActivity = new Intent(getApplicationContext(), ResultActivity.class);
-            resultActivity.putExtra("salario", testSalario);
+            resultActivity.putExtra("salario", salFinal);
+            resultActivity.putExtra("despesa", despesaFinal);
+            resultActivity.putExtra("porcentagem", porcentagemFinal);
 
             startActivity(resultActivity);
         }
